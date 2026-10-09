@@ -229,6 +229,15 @@ Hospitais de exemplo: ...        # só com SEED_DADOS_EXEMPLO=true
 O seed pode ser rodado várias vezes sem duplicar dados (se o administrador já
 existir, ele avisa e não faz nada).
 
+> **Comando único:** `npm run db:setup` aplica todas as migrations e roda o seed
+> (equivale a `npx prisma migrate deploy && npx prisma db seed`). Use-o para
+> criar e popular um banco novo de uma vez.
+>
+> Para conferir as regras de integridade do banco (Quadro 38: auditoria somente
+> inclusão, horário sem sobreposição, uma consulta ativa por horário, exame com
+> formato/tamanho válidos, doação coerente etc.), rode `npm run test:banco`.
+> Os testes rodam em transação desfeita ao final, sem deixar dados.
+
 ### 4.5 Prisma Studio (ver e editar o banco no navegador)
 
 ```bash
@@ -315,8 +324,7 @@ cd backend
 cp .env.example .env           # e ajuste as senhas (seção 2)
 docker compose up -d           # Postgres + Mailpit
 npm install                    # dependências + prisma generate
-npx prisma migrate dev         # cria as tabelas
-npx prisma db seed             # tipos sanguíneos + admin
+npm run db:setup               # cria as tabelas + tipos sanguíneos + admin
 npm run start:dev              # API em http://localhost:3333
 ```
 

@@ -61,6 +61,13 @@ npm run dev
 ```
 
 > Configure as variáveis de ambiente com base em `.env.example` em cada pasta antes de rodar.
+> O passo a passo completo do backend (Docker, `npm run db:setup`, Mailpit) está em
+> [`backend/docs/install.md`](./backend/docs/install.md).
+
+### Banco compartilhado na AWS
+
+A equipe também tem um banco PostgreSQL + PostGIS, armazenamento S3 e Mailpit numa VM
+EC2, acessados por túnel SSH. Veja [`infra/vm/README.md`](./infra/vm/README.md).
 
 ## Equipe
 
