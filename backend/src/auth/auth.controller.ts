@@ -12,6 +12,7 @@ import { LoginDto } from './dto/login.dto.js';
 import { PrimeiroAcessoDto } from './dto/primeiro-acesso.dto.js';
 import { RecuperarSenhaDto, RedefinirSenhaDto } from './dto/recuperacao-senha.dto.js';
 import { RecuperacaoSenhaService } from './recuperacao-senha.service.js';
+import { Auditar } from '../auditoria/auditar.decorator.js';
 
 @Controller('auth')
 export class AuthController {
@@ -22,6 +23,7 @@ export class AuthController {
 
   @Publico()
   @LimiteLogin()
+  @Auditar({ acao: 'LOGIN', entidade: 'usuario', registrarFalha: true })
   @Post('login')
   @HttpCode(HttpStatus.OK)
   login(@Body() dto: LoginDto) {
@@ -31,6 +33,7 @@ export class AuthController {
   // UC06: resposta idêntica exista ou não a conta (RN14).
   @Publico()
   @LimiteRecuperacaoSenha()
+  @Auditar({ acao: 'SOLICITAR_RECUPERACAO_SENHA', entidade: 'usuario' })
   @Post('recuperar-senha')
   @HttpCode(HttpStatus.ACCEPTED)
   recuperarSenha(@Body() dto: RecuperarSenhaDto) {
@@ -39,6 +42,7 @@ export class AuthController {
 
   @Publico()
   @LimiteRedefinicaoSenha()
+  @Auditar({ acao: 'REDEFINIR_SENHA', entidade: 'usuario', registrarFalha: true })
   @Post('redefinir-senha')
   @HttpCode(HttpStatus.OK)
   redefinirSenha(@Body() dto: RedefinirSenhaDto) {
@@ -46,6 +50,7 @@ export class AuthController {
   }
 
   @PermitePrimeiroAcesso()
+  @Auditar({ acao: 'LOGOUT', entidade: 'usuario' })
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
   async logout(@UsuarioAtual() usuario: UsuarioAutenticado) {
@@ -69,6 +74,7 @@ export class AuthController {
 
   @PermitePrimeiroAcesso()
   @Perfis('MEDICO', 'REPRESENTANTE', 'ADMINISTRADOR')
+  @Auditar({ acao: 'PRIMEIRO_ACESSO', entidade: 'usuario', registrarFalha: true })
   @Post('primeiro-acesso')
   @HttpCode(HttpStatus.OK)
   definirSenhaPrimeiroAcesso(

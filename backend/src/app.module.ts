@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AdminModule } from './admin/admin.module.js';
+import { AuditoriaModule } from './auditoria/auditoria.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { LIMITE_PADRAO } from './common/limite-requisicoes.js';
 import { ContasModule } from './contas/contas.module.js';
@@ -22,6 +23,7 @@ import { TipagemModule } from './tipagem/tipagem.module.js';
       errorMessage: 'Parabéns! Você ganhou um tempo de castigo grátis. Aproveite para tocar grama. 🌱',
     }),
     PrismaModule,
+    AuditoriaModule,
     EmailModule,
     ContasModule,
     AuthModule,
